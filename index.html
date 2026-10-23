@@ -4,43 +4,40 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Quantum Helium Maps · StarSwarm Agentic Security</title>
-<meta name="description" content="A browser game: the top 100 crypto tokens as bubbles. Quantum-exposed ones glow red, float up and pop. Migrate them before Q-Day.">
-<meta name="theme-color" content="#03040c">
+<meta name="description" content="Drag and click helium bubbles for the top 100 crypto tokens. Each one fills with green as its privacy and quantum upgrade progress grows.">
+<meta name="theme-color" content="#04030d">
+<link rel="preload" href="assets/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<canvas id="space" aria-hidden="true"></canvas>
-<canvas id="bubbles" aria-label="Token bubbles"></canvas>
+<div class="bg" id="bgA"></div><div class="bg" id="bgB"></div><div class="veil"></div>
+<canvas id="bubbles" aria-label="Token bubbles. Drag to move, click for details."></canvas>
 
 <header class="top">
   <div class="brand">
     <h1>Quantum Helium Maps</h1>
-    <p>by StarSwarm Agentic Security</p>
+    <p>StarSwarm Agentic Security</p>
   </div>
-  <div class="hud" id="hud" hidden>
-    <div><span>Q-Day in</span><b id="clock">60</b></div>
-    <div><span>Score</span><b id="score">0</b></div>
-    <div><span>Streak</span><b id="streak">0</b></div>
-    <div><span>Popped</span><b id="popped">0</b></div>
-  </div>
+  <nav class="tabs" aria-label="Bubble size">
+    <button class="on" data-size="cap">Market cap</button>
+    <button data-size="pq">Upgrade %</button>
+  </nav>
 </header>
 
-<div class="legend" id="legend">
-  <span><i class="dot lower"></i>Lower exposure</span>
-  <span><i class="dot watch"></i>Watch</span>
-  <span><i class="dot risk"></i>At risk</span>
-  <span><i class="dot high"></i>Key always visible</span>
+<div class="legend">
+  <span class="chip"><i style="--c:#ff2850"></i>Low progress, floats up</span>
+  <span class="chip"><i style="--c:#ffaa28"></i>Partial</span>
+  <span class="chip"><i style="--c:#28ff8c"></i>Further along, settles low</span>
+  <span class="chip"><i class="liq"></i>Green fill = estimated progress</span>
 </div>
 
 <footer class="bar">
   <span class="badge" id="badge">Loading market data…</span>
   <div class="btns">
-    <button id="how" class="ghost">Why red?</button>
-    <button id="play" class="cta">Start Q-Day</button>
+    <button id="shake" class="pill">Shake</button>
+    <button id="how" class="pill neon">How it's scored</button>
   </div>
 </footer>
-
-<div id="toast" class="toast" role="status"></div>
 
 <aside id="panel" class="panel" hidden>
   <button class="x" data-close aria-label="Close">×</button>
@@ -50,37 +47,33 @@
     <div><span>Market cap</span><b id="pCap"></b></div>
     <div><span>24h</span><b id="pChg"></b></div>
   </div>
-  <canvas id="spark" height="140"></canvas>
+  <canvas id="spark" height="130"></canvas>
   <p class="cap">7 day price</p>
-  <div class="risk" id="pRisk"></div>
+  <section class="prog">
+    <div class="ptop"><span>Privacy + quantum upgrade <em>estimate</em></span><b id="pScore"></b></div>
+    <div class="pbar"><i id="pFill"></i></div>
+    <p class="chain" id="pChain"></p>
+    <ul id="pFactors" class="factors"></ul>
+    <p class="fine">Heuristic from public, documented factors, not a measurement, rating or advice. Unknown factors add 0.</p>
+  </section>
 </aside>
 
 <aside id="explain" class="panel" hidden>
   <button class="x" data-close aria-label="Close">×</button>
-  <h2>Why do some bubbles glow red?</h2>
-  <p>Crypto wallets prove ownership with a key pair. The <b>private key</b> signs, the <b>public key</b> lets everyone check the signature. Today's chains use elliptic-curve signatures (ECDSA, Schnorr, EdDSA).</p>
-  <p>A large enough quantum computer running <b>Shor's algorithm</b> could work backwards from a public key to the private key. Nobody can do that yet. The day someone can is called <b>Q-Day</b>.</p>
-  <p>So the risk depends on how often public keys sit in the open. Some chains use the public key as the address (always visible). Account chains reveal it after your first send. Bitcoin-style hashed addresses hide it until coins move, unless an address gets reused.</p>
-  <p>The fix is moving funds to <b>post-quantum</b> signatures, which chains will need to add. In the game you are the defender doing that migration before the clock runs out.</p>
-  <h3>How to play</h3>
-  <p>Tap <b>Start Q-Day</b>. Red bubbles float up. Tap them to migrate them before they reach the top and pop. Green ones are lower exposure, leave them be. Outside a round, tap any bubble for its price chart.</p>
-  <p class="fine">Risk colors are a simple estimate from each chain's signature scheme and key-exposure model, not a measurement, rating or financial advice. Market data from CoinGecko's free public API. No trackers, no analytics, nothing you do leaves your browser.</p>
+  <h2>How the green fill works</h2>
+  <p>Wallets prove ownership with elliptic-curve signatures. A big enough quantum computer running <b>Shor's algorithm</b> could turn a visible public key into its private key. Nobody can do that yet.</p>
+  <p>Each bubble fills from the bottom with an <b>estimated</b> 0 to 100% progress score:</p>
+  <ul class="plain">
+    <li><b>Post-quantum migration, up to 50.</b> Live on mainnet 90%, live via contracts 65%, roadmap or testnet 45%, drafts 20%, none found 0.</li>
+    <li><b>Key exposure, up to 35.</b> Hashed addresses 60%, account model 30%, address is the key 10%.</li>
+    <li><b>Privacy, up to 15.</b> Private by default 100%, optional shielding 50%, optional mixing 25%, transparent 0.</li>
+  </ul>
+  <p>Tokens use their host chain's factors. Chains we have not classified show <b>unknown</b> with a dashed ring and no fill. Low scores glow red and float up, higher scores glow green and settle low.</p>
+  <p>Drag and fling bubbles around. Click one for price, market cap, 24h change, a 7 day chart and its factor breakdown.</p>
+  <p class="fine">Migration status summarises public chain profiles and project posts as of Oct 2026. Market data from CoinGecko's free public API. Galaxy photos by ESO (CC BY 4.0). No trackers, no analytics.</p>
 </aside>
 
-<div id="result" class="result" hidden>
-  <div class="card">
-    <h2>Q-Day hit</h2>
-    <canvas id="cardCanvas" width="1080" height="1080"></canvas>
-    <div class="btns">
-      <button id="copy" class="ghost">Copy result</button>
-      <button id="save" class="ghost">Save card</button>
-      <button id="again" class="cta">Play again</button>
-    </div>
-    <button class="link" data-close>Back to the map</button>
-  </div>
-</div>
-
-<script src="risk.js"></script>
+<script src="progress.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

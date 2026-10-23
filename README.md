@@ -1,42 +1,45 @@
 # Quantum Helium Maps
 
-A browser game by **StarSwarm Agentic Security**. The top 100 crypto tokens float as bubbles over a hyperspace starfield, sized by market cap. Tokens whose public keys sit in the open on-chain glow red, fill with "helium", float to the top and pop. Lower-exposure tokens stay green and settle at the bottom.
+An explorer by **StarSwarm Agentic Security**. The top 100 crypto tokens float as helium bubbles over Milky Way photos. Drag and fling them around, click one for details.
 
-## How to play
+Each bubble fills from the bottom with glowing green liquid showing its **estimated privacy + quantum upgrade progress** (0 to 100%). Low progress glows red and floats high. Further along glows green and settles low.
 
-- **Explore:** tap any bubble for price, market cap, 24h change, a 7 day chart and its quantum exposure estimate.
-- **Start Q-Day:** a 60 second round. Tap red bubbles to migrate them to post-quantum safety before they reach the top and pop. Streaks score more. Tapping green or amber breaks your streak. The pace speeds up as Q-Day gets closer.
-- At the end you get a share card (score, migrated, popped, best streak). It holds no personal data.
+## Click panel
 
-## Why red?
+Price, market cap, 24h change, a 7 day chart drawn on canvas, and the progress estimate with its factor breakdown.
 
-Wallets prove ownership with elliptic-curve signatures (ECDSA, Schnorr, EdDSA). A large enough quantum computer running Shor's algorithm could recover a private key from its public key. Chains differ in how often that public key is visible:
+## How the estimate works
 
-| Model | Estimate | Meaning |
+A large enough quantum computer running Shor's algorithm could recover a private key from a visible public key. The score adds three factors (see `progress.js`):
+
+| Factor | Max | Levels |
 |---|---|---|
-| Address is the public key | 90 | visible from day one |
-| Account model | 80 | visible after the first outgoing transaction |
-| Hashed UTXO | ~60 | hidden until coins are spent, reuse exposes it |
-| Not classified | 75 | elliptic-curve scheme assumed |
+| Post-quantum migration | 50 | live on mainnet 90%, live via contracts 65%, roadmap or testnet 45%, drafts 20%, none found 0 |
+| Key exposure | 35 | hashed addresses 60%, account model 30%, address is the key 10% |
+| Privacy | 15 | private by default 100%, optional shielding 50%, optional mixing 25%, transparent 0 |
 
-Tokens inherit their host chain's model. The table lives in `risk.js`. **It is a simple heuristic, not a measurement, rating or financial advice.**
+Tokens use their host chain's factors. Unclassified chains show **unknown** (dashed ring, no fill) and unknown factors add 0. Migration status summarises public chain profiles ([Hardy Index](https://hardyindex.com/chains.md)) and project posts as of October 2026. **This is a heuristic, not a measurement, rating or financial advice.**
 
 ## Data
 
-- Live: [CoinGecko public API](https://www.coingecko.com/en/api) `/coins/markets` (free, no key, top 100 by market cap, 7 day sparkline).
-- Offline fallback: `data/sample.json`, a labeled snapshot of that same public data. The page badge says which one you are seeing.
-- No trackers, no analytics, no cookies. Nothing you do leaves your browser.
+- Live: [CoinGecko public API](https://www.coingecko.com/en/api) `/coins/markets` (free, no key, 7 day sparkline).
+- Offline fallback: `data/sample.json`, a labeled snapshot of the same public data. The badge shows which is in use.
+- No trackers, no analytics, no cookies.
+
+## Credits
+
+Background photos, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), resized and compressed to WebP:
+
+- "The planet, the galaxy and the laser", ESO/Y. Beletsky, [eso0733a](https://www.eso.org/public/images/eso0733a/)
+- "A 340-million pixel starscape from Paranal", ESO/S. Guisard, [eso0934a](https://www.eso.org/public/images/eso0934a/)
+- "The Milky Way panorama", ESO/S. Brunier, [eso0932a](https://www.eso.org/public/images/eso0932a/) (cropped)
+
+Fonts: [Space Grotesk](https://github.com/floriankarsten/space-grotesk) and [Manrope](https://github.com/googlefonts/manrope), SIL Open Font License 1.1 (see `assets/fonts/`).
 
 ## Run it
 
-Static files, no build step.
-
-```
-python3 -m http.server 8000
-```
-
-Then open http://localhost:8000.
+Static files, no build step: `python3 -m http.server 8000` and open http://localhost:8000.
 
 ## License
 
-MIT
+Code: MIT. Photos and fonts keep their own licenses above.
