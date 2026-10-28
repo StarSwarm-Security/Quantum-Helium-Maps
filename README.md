@@ -1,8 +1,8 @@
 # Quantum Helium Maps
 
-An explorer by **StarSwarm Agentic Security**. The top 100 crypto tokens float as helium bubbles over Milky Way photos. Drag and fling them around, click one for details.
+An explorer by **StarSwarm Agentic Security**. The top 100 crypto tokens float as glass helium bubbles inside a stone observatory open to the Milky Way. Drag and fling them around, click one for details.
 
-Each bubble fills from the bottom with glowing green liquid showing its **estimated privacy + quantum upgrade progress** (0 to 100%). Low progress glows red and floats high. Further along glows green and settles low.
+Each bubble fills from the bottom with emerald gas showing its **estimated privacy + quantum upgrade progress** (0 to 100%). Low progress glows crimson and floats high. Further along glows green and settles low.
 
 ## Click panel
 
@@ -28,15 +28,16 @@ Tokens use their host chain's factors. Unclassified chains show **unknown** (das
 
 ## Credits
 
-Background photos, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), resized and compressed to WebP:
+Observatory backdrop, Quantum Helium Lab v2 (dark fantasy stone hall, crystals, candlelight, Milky Way through the great arch):
 
-- "The planet, the galaxy and the laser", ESO/Y. Beletsky, [eso0733a](https://www.eso.org/public/images/eso0733a/)
-- "A 340-million pixel starscape from Paranal", ESO/S. Guisard, [eso0934a](https://www.eso.org/public/images/eso0934a/)
-- "The Milky Way panorama", ESO/S. Brunier, [eso0932a](https://www.eso.org/public/images/eso0932a/) (cropped)
+- Page background: `assets/qhm-lab-v2-backdrop.webp` (empty hall so the live bubbles own the arch), with `assets/qhm-lab-v2-backdrop.png` kept beside it
+- Social preview: `assets/qhm-lab-v2-observatory.png`, the same hall with emerald and crimson glass
 
-Fonts: [Space Grotesk](https://github.com/floriankarsten/space-grotesk) and [Manrope](https://github.com/googlefonts/manrope), SIL Open Font License 1.1 (see `assets/fonts/`).
+Earlier Milky Way photos stay in `assets/galaxy/` and are not shown. They remain [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): ESO/Y. Beletsky [eso0733a](https://www.eso.org/public/images/eso0733a/), ESO/S. Guisard [eso0934a](https://www.eso.org/public/images/eso0934a/), ESO/S. Brunier [eso0932a](https://www.eso.org/public/images/eso0932a/). The previous social card `assets/qhm-hero-v1-1600x900.png` is unused.
 
-Social preview (Open Graph and Twitter cards): `assets/qhm-hero-v1-1600x900.png`, Milky Way with helium bubbles and a faint shield watermark. The page itself stays the interactive bubble map.
+Fonts: [Cinzel](https://github.com/NDISCOVER/Cinzel) for the title, [Space Grotesk](https://github.com/floriankarsten/space-grotesk) and [Manrope](https://github.com/googlefonts/manrope) for the interface, SIL Open Font License 1.1 (see `assets/fonts/`).
+
+The page itself stays the interactive bubble map. Visual target notes live in `taste.md`.
 
 ## Run it
 
@@ -44,4 +45,4 @@ Static files, no build step: `python3 -m http.server 8000` and open http://local
 
 ## License
 
-Code: MIT. Photos and fonts keep their own licenses above.
+Code: MIT. Fonts, and the unused galaxy photos, keep their own licenses above.
