@@ -6,22 +6,13 @@
   const price = v => v == null ? '–' : v >= 1 ? '$' + v.toLocaleString('en-US', { maximumFractionDigits: 2 }) : '$' + v.toPrecision(4);
   const pct = v => v == null ? '–' : (v >= 0 ? '+' : '') + v.toFixed(2) + '%';
   const rgba = (c, a) => 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')';
-  const RED = [255, 40, 80], AMBER = [255, 170, 40], GREEN = [40, 255, 140], GREY = [150, 160, 190], LIQ = [60, 255, 150];
+  const RED = [228, 35, 63], AMBER = [232, 168, 74], GREEN = [30, 214, 122], GREY = [176, 170, 158], LIQ = [64, 222, 140];
   const mix = (a, b, t) => a.map((v, i) => Math.round(v + (b[i] - v) * t));
   function tone(s) { // 0..~55 -> red..amber..green
     if (s == null) return GREY;
     const t = Math.max(0, Math.min(1, s / 50));
     return t < 0.6 ? mix(RED, AMBER, t / 0.6) : mix(AMBER, GREEN, (t - 0.6) / 0.4);
   }
-
-  /* ---------- galaxy background crossfade ---------- */
-  const layers = [$('bgA'), $('bgB')], imgs = ['assets/galaxy/milky-way-paranal.webp', 'assets/galaxy/milky-way-core.webp', 'assets/galaxy/milky-way-panorama.webp'];
-  let bgi = 0, front = 0;
-  layers[0].style.backgroundImage = 'url(' + imgs[0] + ')'; layers[0].classList.add('on');
-  setInterval(() => {
-    bgi = (bgi + 1) % imgs.length; const next = layers[1 - front];
-    const im = new Image(); im.onload = () => { next.style.backgroundImage = 'url(' + imgs[bgi] + ')'; next.classList.add('on'); layers[front].classList.remove('on'); front = 1 - front; }; im.src = imgs[bgi];
-  }, 22000);
 
   /* ---------- canvas ---------- */
   const cv = $('bubbles'), cx = cv.getContext('2d');
@@ -85,42 +76,55 @@
   }
   function draw(now) {
     cx.clearRect(0, 0, W, H);
-    cx.globalCompositeOperation = 'lighter';
-    for (const b of bubbles) { // vivid aura
+    for (const b of bubbles) {
       const c = tone(b.p.score), low = b.p.score != null && b.p.score < 25;
-      const pulse = low ? 0.75 + 0.25 * Math.sin(now / 280 + b.ph) : 0.8;
-      const R = b.r * (low ? 1.9 : 1.65), g = cx.createRadialGradient(b.x, b.y, b.r * 0.7, b.x, b.y, R);
-      g.addColorStop(0, rgba(c, (b.p.known ? 0.7 : 0.3) * pulse)); g.addColorStop(1, rgba(c, 0));
+      const pulse = low ? 0.72 + 0.28 * Math.sin(now / 340 + b.ph) : 1;
+      const R = b.r * (low ? 2.25 : 1.9);
+      const g = cx.createRadialGradient(b.x, b.y, b.r * 0.15, b.x, b.y, R);
+      g.addColorStop(0, rgba(c, (b.p.known ? 0.38 : 0.12) * pulse));
+      g.addColorStop(0.5, rgba(c, (b.p.known ? 0.12 : 0.04) * pulse));
+      g.addColorStop(1, rgba(c, 0));
       cx.fillStyle = g; cx.beginPath(); cx.arc(b.x, b.y, R, 0, 6.283); cx.fill();
     }
-    cx.globalCompositeOperation = 'source-over';
     for (const b of bubbles) {
       const c = tone(b.p.score), r = b.r;
-      // glass shell
-      const g = cx.createRadialGradient(b.x - r * 0.3, b.y - r * 0.35, r * 0.1, b.x, b.y, r);
-      g.addColorStop(0, 'rgba(255,255,255,.06)'); g.addColorStop(0.8, rgba(c, 0.16)); g.addColorStop(1, rgba(c, 0.5));
-      cx.fillStyle = g; cx.beginPath(); cx.arc(b.x, b.y, r, 0, 6.283); cx.fill();
-      // glowing green liquid filling from the bottom
+      const shell = cx.createRadialGradient(b.x - r * 0.32, b.y - r * 0.38, r * 0.05, b.x, b.y, r);
+      shell.addColorStop(0, 'rgba(255,255,255,.42)');
+      shell.addColorStop(0.16, 'rgba(255,255,255,.08)');
+      shell.addColorStop(0.42, 'rgba(8,10,16,.42)');
+      shell.addColorStop(0.78, rgba(c, 0.16));
+      shell.addColorStop(1, rgba(c, 0.82));
+      cx.fillStyle = shell; cx.beginPath(); cx.arc(b.x, b.y, r, 0, 6.283); cx.fill();
+      if (b.p.known) {
+        const gas = cx.createRadialGradient(b.x, b.y + r * 0.2, r * 0.05, b.x, b.y, r * 0.92);
+        gas.addColorStop(0, rgba(c, 0.05 + b.lvl * 0.22));
+        gas.addColorStop(1, rgba(c, 0));
+        cx.fillStyle = gas; cx.beginPath(); cx.arc(b.x, b.y, r - 2, 0, 6.283); cx.fill();
+      }
       if (b.p.known && b.lvl > 0.005) {
-        cx.save(); cx.beginPath(); cx.arc(b.x, b.y, r - 1.5, 0, 6.283); cx.clip();
-        const ly = b.y + r - b.lvl * 2 * r, amp = Math.max(1.2, r * 0.06);
+        cx.save(); cx.beginPath(); cx.arc(b.x, b.y, r - 1.6, 0, 6.283); cx.clip();
+        const ly = b.y + r - b.lvl * 2 * r, amp = Math.max(1.2, r * 0.055);
         cx.beginPath(); cx.moveTo(b.x - r, b.y + r);
         for (let x = -r; x <= r; x += Math.max(2, r / 10)) cx.lineTo(b.x + x, ly + Math.sin(x / r * 4 + now / 420 + b.ph) * amp);
         cx.lineTo(b.x + r, b.y + r); cx.closePath();
         const lg = cx.createLinearGradient(0, ly, 0, b.y + r);
-        lg.addColorStop(0, rgba(LIQ, 0.95)); lg.addColorStop(0.3, rgba(LIQ, 0.8)); lg.addColorStop(1, rgba([20, 170, 95], 0.9));
-        cx.shadowColor = rgba(LIQ, 1); cx.shadowBlur = Math.min(18, r * 0.5);
+        lg.addColorStop(0, rgba([186, 255, 214], 0.95));
+        lg.addColorStop(0.18, rgba(LIQ, 0.82));
+        lg.addColorStop(1, rgba([10, 92, 54], 0.9));
+        cx.shadowColor = rgba(LIQ, 0.9); cx.shadowBlur = Math.min(16, r * 0.45);
         cx.fillStyle = lg; cx.fill(); cx.shadowBlur = 0;
         cx.restore();
       }
-      cx.lineWidth = drag?.b === b ? 3 : 1.6; cx.strokeStyle = rgba(c, 0.95);
-      if (!b.p.known) cx.setLineDash([4, 4]);
-      cx.beginPath(); cx.arc(b.x, b.y, r, 0, 6.283); cx.stroke(); cx.setLineDash([]);
-      cx.fillStyle = 'rgba(255,255,255,.18)';
-      cx.beginPath(); cx.ellipse(b.x - r * 0.35, b.y - r * 0.45, r * 0.3, r * 0.14, -0.6, 0, 6.283); cx.fill();
-      const sym = b.coin.symbol.toUpperCase(), fs = Math.max(8, Math.min(r * 0.48, r * 1.5 / Math.max(2.5, sym.length * 0.62)));
-      cx.textAlign = 'center'; cx.textBaseline = 'middle'; cx.fillStyle = '#fff';
-      cx.shadowColor = 'rgba(0,0,0,.7)'; cx.shadowBlur = 4;
+      cx.lineWidth = drag?.b === b ? 2.6 : 1.35; cx.strokeStyle = rgba(c, b.p.known ? 0.92 : 0.55);
+      if (!b.p.known) cx.setLineDash([3.5, 3.5]);
+      cx.beginPath(); cx.arc(b.x, b.y, r - 0.6, 0, 6.283); cx.stroke(); cx.setLineDash([]);
+      cx.strokeStyle = 'rgba(255,255,255,.5)'; cx.lineWidth = Math.max(1.1, r * 0.055); cx.lineCap = 'round';
+      cx.beginPath(); cx.arc(b.x, b.y, r * 0.78, -2.45, -0.85); cx.stroke(); cx.lineCap = 'butt';
+      cx.fillStyle = 'rgba(255,255,255,.72)';
+      cx.beginPath(); cx.ellipse(b.x - r * 0.3, b.y - r * 0.36, r * 0.2, r * 0.09, -0.7, 0, 6.283); cx.fill();
+      const sym = b.coin.symbol.toUpperCase(), fs = Math.max(8, Math.min(r * 0.46, r * 1.5 / Math.max(2.5, sym.length * 0.62)));
+      cx.textAlign = 'center'; cx.textBaseline = 'middle'; cx.fillStyle = '#f7f4ee';
+      cx.shadowColor = 'rgba(0,0,0,.85)'; cx.shadowBlur = 5;
       cx.font = '700 ' + fs + 'px "Space Grotesk", sans-serif';
       const lab = b.p.known ? b.p.score + '%' : '?';
       if (r > 22) {
@@ -186,15 +190,15 @@
   function drawSpark(pts) {
     const el = $('spark'), w = el.clientWidth || 340, h = 130, x = el.getContext('2d');
     el.width = w * DPR; el.height = h * DPR; x.setTransform(DPR, 0, 0, DPR, 0, 0); x.clearRect(0, 0, w, h);
-    if (pts.length < 2) { x.fillStyle = '#9aa3c7'; x.font = '13px Manrope'; x.fillText('No 7 day data', 10, 65); return; }
+    if (pts.length < 2) { x.fillStyle = '#c4bbaa'; x.font = '13px Manrope'; x.fillText('No 7 day data', 10, 65); return; }
     const col = pts[pts.length - 1] >= pts[0] ? GREEN : RED, lo = Math.min(...pts), hi = Math.max(...pts), p = 12, sp = hi - lo || 1;
     const X = i => p + i / (pts.length - 1) * (w - 2 * p), Y = v => p + (1 - (v - lo) / sp) * (h - 2 * p);
-    x.strokeStyle = 'rgba(160,180,255,.1)'; for (let k = 0; k < 4; k++) { const y = p + k * (h - 2 * p) / 3; x.beginPath(); x.moveTo(p, y); x.lineTo(w - p, y); x.stroke(); }
+    x.strokeStyle = 'rgba(232,214,180,.14)'; for (let k = 0; k < 4; k++) { const y = p + k * (h - 2 * p) / 3; x.beginPath(); x.moveTo(p, y); x.lineTo(w - p, y); x.stroke(); }
     const path = new Path2D(); pts.forEach((v, i) => i ? path.lineTo(X(i), Y(v)) : path.moveTo(X(i), Y(v)));
     const fill = new Path2D(path); fill.lineTo(X(pts.length - 1), h - p); fill.lineTo(X(0), h - p); fill.closePath();
     const g = x.createLinearGradient(0, p, 0, h); g.addColorStop(0, rgba(col, 0.35)); g.addColorStop(1, rgba(col, 0)); x.fillStyle = g; x.fill(fill);
     x.shadowColor = rgba(col, 1); x.shadowBlur = 10; x.strokeStyle = rgba(col, 1); x.lineWidth = 2; x.stroke(path); x.shadowBlur = 0;
-    x.fillStyle = '#a9b1d6'; x.font = '11px Manrope, sans-serif'; x.textAlign = 'right'; x.fillText(price(hi), w - p, p - 1); x.fillText(price(lo), w - p, h - 1);
+    x.fillStyle = '#d9cbb6'; x.font = '11px Manrope, sans-serif'; x.textAlign = 'right'; x.fillText(price(hi), w - p, p - 1); x.fillText(price(lo), w - p, h - 1);
   }
 
   /* ---------- data ---------- */

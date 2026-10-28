@@ -4,29 +4,30 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Quantum Helium Maps · StarSwarm Agentic Security</title>
-<meta name="description" content="Drag and click helium bubbles for the top 100 crypto tokens. Each one fills with green as its privacy and quantum upgrade progress grows.">
-<meta name="theme-color" content="#04030d">
+<meta name="description" content="Drag and click glass helium bubbles for the top 100 crypto tokens, in a stone observatory open to the Milky Way. Each bubble fills with green as its privacy and quantum upgrade progress grows.">
+<meta name="theme-color" content="#07080c">
 <link rel="canonical" href="https://starswarm-security.github.io/Quantum-Helium-Maps/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Quantum Helium Maps">
 <meta property="og:title" content="Quantum Helium Maps · StarSwarm Agentic Security">
-<meta property="og:description" content="Drag and click helium bubbles for the top 100 crypto tokens. Each one fills with green as its privacy and quantum upgrade progress grows.">
+<meta property="og:description" content="Drag and click glass helium bubbles for the top 100 crypto tokens, in a stone observatory open to the Milky Way. Each bubble fills with green as its privacy and quantum upgrade progress grows.">
 <meta property="og:url" content="https://starswarm-security.github.io/Quantum-Helium-Maps/">
-<meta property="og:image" content="https://starswarm-security.github.io/Quantum-Helium-Maps/assets/qhm-hero-v1-1600x900.png">
+<meta property="og:image" content="https://starswarm-security.github.io/Quantum-Helium-Maps/assets/qhm-lab-v2-observatory.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1600">
 <meta property="og:image:height" content="900">
-<meta property="og:image:alt" content="Glowing helium bubbles over the Milky Way, with a faint shield watermark. StarSwarm Quantum Helium.">
+<meta property="og:image:alt" content="Gothic stone observatory open to the Milky Way, with glass helium bubbles glowing emerald and crimson. Quantum Helium Maps.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Quantum Helium Maps · StarSwarm Agentic Security">
-<meta name="twitter:description" content="Drag and click helium bubbles for the top 100 crypto tokens. Each one fills with green as its privacy and quantum upgrade progress grows.">
-<meta name="twitter:image" content="https://starswarm-security.github.io/Quantum-Helium-Maps/assets/qhm-hero-v1-1600x900.png">
-<meta name="twitter:image:alt" content="Glowing helium bubbles over the Milky Way, with a faint shield watermark. StarSwarm Quantum Helium.">
+<meta name="twitter:description" content="Drag and click glass helium bubbles for the top 100 crypto tokens, in a stone observatory open to the Milky Way. Each bubble fills with green as its privacy and quantum upgrade progress grows.">
+<meta name="twitter:image" content="https://starswarm-security.github.io/Quantum-Helium-Maps/assets/qhm-lab-v2-observatory.png">
+<meta name="twitter:image:alt" content="Gothic stone observatory open to the Milky Way, with glass helium bubbles glowing emerald and crimson. Quantum Helium Maps.">
+<link rel="preload" href="assets/fonts/cinzel-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="bg" id="bgA"></div><div class="bg" id="bgB"></div><div class="veil"></div>
+<div class="bg" aria-hidden="true"></div><div class="veil" aria-hidden="true"></div>
 <canvas id="bubbles" aria-label="Token bubbles. Drag to move, click for details."></canvas>
 
 <header class="top">
@@ -41,9 +42,9 @@
 </header>
 
 <div class="legend">
-  <span class="chip"><i style="--c:#ff2850"></i>Low progress, floats up</span>
-  <span class="chip"><i style="--c:#ffaa28"></i>Partial</span>
-  <span class="chip"><i style="--c:#28ff8c"></i>Further along, settles low</span>
+  <span class="chip"><i style="--c:#e4233f"></i>Low progress, floats up</span>
+  <span class="chip"><i style="--c:#e8a84a"></i>Partial</span>
+  <span class="chip"><i style="--c:#1ed67a"></i>Further along, settles low</span>
   <span class="chip"><i class="liq"></i>Green fill = estimated progress</span>
 </div>
 
@@ -51,7 +52,7 @@
   <span class="badge" id="badge">Loading market data…</span>
   <div class="btns">
     <button id="shake" class="pill">Shake</button>
-    <button id="how" class="pill neon">How it's scored</button>
+    <button id="how" class="pill accent">How it's scored</button>
   </div>
 </footer>
 
@@ -86,7 +87,7 @@
   </ul>
   <p>Tokens use their host chain's factors. Chains we have not classified show <b>unknown</b> with a dashed ring and no fill. Low scores glow red and float up, higher scores glow green and settle low.</p>
   <p>Drag and fling bubbles around. Click one for price, market cap, 24h change, a 7 day chart and its factor breakdown.</p>
-  <p class="fine">Migration status summarises public chain profiles and project posts as of Oct 2026. Market data from CoinGecko's free public API. Galaxy photos by ESO (CC BY 4.0). No trackers, no analytics.</p>
+  <p class="fine">Migration status summarises public chain profiles and project posts as of Oct 2026. Market data from CoinGecko's free public API. Observatory hall: Quantum Helium Lab v2. No trackers, no analytics.</p>
 </aside>
 
 <script src="progress.js"></script>
