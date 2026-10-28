@@ -36,6 +36,8 @@ Background photos, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), re
 
 Fonts: [Space Grotesk](https://github.com/floriankarsten/space-grotesk) and [Manrope](https://github.com/googlefonts/manrope), SIL Open Font License 1.1 (see `assets/fonts/`).
 
+Social preview (Open Graph and Twitter cards): `assets/qhm-hero-v1-1600x900.png`, Milky Way with helium bubbles and a faint shield watermark. The page itself stays the interactive bubble map.
+
 ## Run it
 
 Static files, no build step: `python3 -m http.server 8000` and open http://localhost:8000.
