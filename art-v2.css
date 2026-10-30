@@ -1,0 +1,32 @@
+/* Site art v2 (cover v20). Layers on style.css; the Lab v2 observatory backdrop stays as the bubble hall.
+   WebP first with PNG fallback: the plain url() line is for browsers without image-set type(). */
+
+/* Panel overlays run 66-74% (above the usual 40-55%) because the panel copy is 11-13px.
+   "How it's scored" panel: cover v20 hero banner + shield-outline section art + glyph factor cards */
+#explain{padding-top:0;background-color:#0a0b0e;
+  background-image:linear-gradient(180deg,rgba(10,11,14,.66),rgba(10,11,14,.7)),url(assets/v2/section-wormhole-shield-outline-1200x675.png);
+  background-image:linear-gradient(180deg,rgba(10,11,14,.66),rgba(10,11,14,.7)),image-set(url(assets/v2/section-wormhole-shield-outline-1200x675.webp) type("image/webp"),url(assets/v2/section-wormhole-shield-outline-1200x675.png) type("image/png"));
+  background-size:cover;background-position:center;background-attachment:scroll}
+#explain .x{z-index:2}
+.art-hero{position:relative;margin:0 -20px 14px;aspect-ratio:3/1;min-height:120px;border-bottom:1px solid var(--line);background-color:#02040d;
+  background-image:url(assets/v2/hero-cover-v20-textfree-1500x500.png);
+  background-image:image-set(url(assets/v2/hero-cover-v20-textfree-1500x500.webp) type("image/webp"),url(assets/v2/hero-cover-v20-textfree-1500x500.png) type("image/png"));
+  background-size:cover;background-position:center 60%;background-repeat:no-repeat}
+/* Headline in the empty bottom band (x 590-910, y 395-490 of 1500x500) where the panther beam points */
+.art-hero-copy{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);width:86%;text-align:center;white-space:nowrap;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.5),rgba(0,0,0,0) 72%)}
+.art-hero-copy .art-kicker{font-family:Cinzel,serif;font-weight:700;font-size:15px;letter-spacing:.1em;line-height:1.05;margin:0!important;
+  color:#f6f1e6!important;text-transform:uppercase;text-shadow:0 0 12px rgba(126,231,234,.7),0 2px 6px #000}
+.art-hero-copy .art-line{font-family:"Space Grotesk",sans-serif;font-size:8px!important;letter-spacing:.28em;margin:3px 0 0!important;
+  color:#bfeff0!important;text-transform:uppercase;text-shadow:0 0 8px rgba(126,231,234,.6),0 1px 3px #000}
+.art-factors{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 4px}
+.art-factor{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border-radius:12px;text-align:center;
+  background:rgba(8,9,12,.62);border:1px solid rgba(126,231,234,.2)}
+.art-factor img{display:block;width:96px;height:96px}
+.art-factor b{font-size:12px;color:#f6f1e6}
+.art-factor span{font-size:11px;color:var(--mute);line-height:1.3}
+
+/* Coin detail panel: ring-halo section art under the existing glass */
+#panel{background-image:linear-gradient(180deg,rgba(18,17,15,.72),rgba(8,9,12,.74)),url(assets/v2/section-wormhole-ring-halo-1200x675.png);
+  background-image:linear-gradient(180deg,rgba(18,17,15,.72),rgba(8,9,12,.74)),image-set(url(assets/v2/section-wormhole-ring-halo-1200x675.webp) type("image/webp"),url(assets/v2/section-wormhole-ring-halo-1200x675.png) type("image/png"));
+  background-size:cover;background-position:center}
